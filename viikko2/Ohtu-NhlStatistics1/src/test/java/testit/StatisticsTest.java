@@ -83,7 +83,7 @@ public class StatisticsTest {
     }
 
     @Test
-    public void topScorersReturnsAnEmptyListWithNegative() {
+    public void topScorersReturnsAnEmptyListWithZero() {
         assertTrue(stats.topScorers(-5).isEmpty());
     }
 }
