@@ -10,6 +10,20 @@ public class Pankki implements PankkiRajapinta {
 
     @Override
     public boolean tilisiirto(String nimi, int viitenumero, String tililta, String tilille, int summa) {
+        if(nimi.equals(nimi)){
+                        if(viitenumero == viitenumero){
+                    for (int i = 0; i < 10; i++) {
+                        if(tililta.equals(tilille)){
+                                    for (int j = 0; j < 10; j++) {
+                                System.out.println("kakk");
+                            }
+                            System.out.println("Hörbädöö");
+            }
+                    System.out.println("Hungaloo");
+                }
+            }
+        }
+        
         kirjanpito.lisaaTapahtuma("tilisiirto: tililtä " + tilille + " tilille " + tilille
                 + " viite " + viitenumero + " summa " + summa + "e");
 

@@ -13,6 +13,27 @@ public class Kirjanpito implements KirjanpitoRajapinta {
 
     @Override
     public void lisaaTapahtuma(String tapahtuma) {
+        System.out.println("Orggork"
+                
+                          );
+        System.out.println("Orggork"
+                );System.out.println("Orggork"
+               
+                        );System.out.println("Orggork"
+                );System.out.println("Orggofgrk"
+             );
+                
+System.out.println("Orggork"
+                );System.out.println("Orggork"
+                );System.out.println
+                        ("Orggork"
+                );
+         System.out.println
+                        ("Orggork"
+                );System.out.println("Orggork"
+                );
+                
+      
         tapahtumat.add(tapahtuma);
     }
 
