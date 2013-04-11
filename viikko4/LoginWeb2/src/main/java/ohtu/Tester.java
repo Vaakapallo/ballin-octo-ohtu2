@@ -7,6 +7,8 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 public class Tester {
 
+    
+
     public static void main(String[] args) {
         WebDriver driver = new HtmlUnitDriver();
 
@@ -30,6 +32,14 @@ public class Tester {
         element = driver.findElement(By.linkText("logout"));
         element.click();
 
+        epaonnistunutKirjautuminen(driver);
+        eiOlemassaolevaKayttis(driver);
+        uusiKayttaja(driver);
+        uusiKayttajaJaKirjautuminen(driver);
+    }
+    
+    public static void epaonnistunutKirjautuminen(WebDriver driver) {
+        WebElement element;
         System.out.println("EPÄONNISTUNUT KIRJAUTUMINEN ALKAA");
 
         System.out.println(driver.getPageSource());
@@ -46,7 +56,10 @@ public class Tester {
         System.out.println(driver.getPageSource());
 
         System.out.println("==");
+    }
 
+    public static void eiOlemassaolevaKayttis(WebDriver driver) {
+        WebElement element;
         System.out.println("EIOLEMASSAOLEVA KÄYTTÄJÄTUNNUS ALKAA");
 
         System.out.println(driver.getPageSource());
@@ -63,7 +76,10 @@ public class Tester {
         element.click();
 
         System.out.println("==");
+    }
 
+    public static void uusiKayttaja(WebDriver driver) {
+        WebElement element;
         System.out.println("UUDEN KÄYTTÄJÄN LUOMINEN ALKAA");
 
         System.out.println(driver.getPageSource());
@@ -86,7 +102,10 @@ public class Tester {
         element.click();
 
         System.out.println("==");
+    }
 
+    public static void uusiKayttajaJaKirjautuminen(WebDriver driver) {
+        WebElement element;
         System.out.println("UUDEN KÄYTTÄJÄN LUOMINEN JA KIRJAUTUMINEN ALKAA");
 
         System.out.println(driver.getPageSource());
@@ -118,9 +137,9 @@ public class Tester {
 
         System.out.println(driver.getPageSource());
         element = driver.findElement(By.name("username"));
-        element.sendKeys("pekka");
+        element.sendKeys("partapekka");
         element = driver.findElement(By.name("password"));
-        element.sendKeys("akkep");
+        element.sendKeys("parkap3kka");
         element = driver.findElement(By.name("login"));
         element.submit();
 
@@ -128,6 +147,5 @@ public class Tester {
         System.out.println(driver.getPageSource());
 
         System.out.println("==");
-
     }
 }
