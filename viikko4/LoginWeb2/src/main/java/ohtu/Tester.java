@@ -94,6 +94,7 @@ public class Tester {
         element = driver.findElement(By.name("add"));
         element.submit();
 
+        System.out.println("KUKKUU KATSO TÄNNE");
         System.out.println("==");
         System.out.println(driver.getPageSource());
         element = driver.findElement(By.linkText("continue to application mainpage"));

@@ -1,120 +1,192 @@
 import ohtu.*
-import ohtu.services.*
-import ohtu.data_access.*
-import ohtu.domain.*
-import ohtu.io.*
+import ohtu.authentication.*
+import org.openqa.selenium.*
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 description """A new user account can be created 
               if a proper unused username 
               and a proper password are given"""
 
-scenario "creation succesfull with correct username and password", {
+scenario "creation successful with correct username and password", {
     given 'command new user is selected', {
-       userDao = new InMemoryUserDao()
-       auth = new AuthenticationService(userDao)
-       io = new StubIO("new", "eero", "sala1nen" ) 
-       app = new App(io, auth)
+        driver = new HtmlUnitDriver();
+        driver.get("http://localhost:8080");
+        element = driver.findElement(By.linkText("register new user"));       
+        element.click();
     }
  
     when 'a valid username and password are entered', {
-      app.run()
+        element = driver.findElement(By.name("username"));
+        element.sendKeys("pekkaparka");
+        element = driver.findElement(By.name("password"));
+        element.sendKeys("parkap3kka");
+        element = driver.findElement(By.name("passwordConfirmation"));
+        element.sendKeys("parkap3kka");
+        element = driver.findElement(By.name("add"));
+        element.submit();
     }
 
     then 'new user is registered to system', {
-      io.getPrints().shouldHave("new user registered")
+        driver.getPageSource().contains("continue to application mainpage").shouldBe true
     }
 }
 
-scenario "can login with succesfully generated account", {
+scenario "can login with successfully generated account", {
     given 'command new user is selected', {
-       userDao = new InMemoryUserDao()
-       auth = new AuthenticationService(userDao)
-       io = new StubIO("new", "eero", "sala1nen", "login", "eero", "sala1nen") 
-       app = new App(io, auth)
+        driver = new HtmlUnitDriver();
+        driver.get("http://localhost:8080");
+        element = driver.findElement(By.linkText("register new user"));       
+        element.click();
     }
  
     when 'a valid username and password are entered', {
-      app.run()
+        element = driver.findElement(By.name("username"));
+        element.sendKeys("partapekka");
+        element = driver.findElement(By.name("password"));
+        element.sendKeys("parkap3kka");
+        element = driver.findElement(By.name("passwordConfirmation"));
+        element.sendKeys("parkap3kka");
+        element = driver.findElement(By.name("add"));
+        element.submit();
+        element = driver.findElement(By.linkText("continue to application mainpage"));
+        element.click();
+        element = driver.findElement(By.linkText("logout"));
+        element.click();  
     }
 
-    then  'new credentials allow logging in to system', {
-       io.getPrints().shouldHave("logged in")
+    then 'new credentials allow logging in to system', {
+        element = driver.findElement(By.linkText("login"));
+        element.click();
+        element = driver.findElement(By.name("username"));
+        element.sendKeys("partapekka");
+        element = driver.findElement(By.name("password"));
+        element.sendKeys("parkap3kka");
+        element = driver.findElement(By.name("login"));
+        element.submit();
+        driver.getPageSource().contains("Welcome to Ohtu Application!").shouldBe true
     }
 }
 
 scenario "creation fails with correct username and too short password", {
     given 'command new user is selected', {
-       userDao = new InMemoryUserDao()
-       auth = new AuthenticationService(userDao)
-       io = new StubIO("new", "eero", "sal") 
-       app = new App(io, auth)
+        driver = new HtmlUnitDriver();
+        driver.get("http://localhost:8080");
+        element = driver.findElement(By.linkText("register new user"));       
+        element.click();
     }
 
     when 'a valid username and too short password are entered', {
-      app.run()
+        element = driver.findElement(By.name("username"));
+        element.sendKeys("pekkaparka");
+        element = driver.findElement(By.name("password"));
+        element.sendKeys("p3kka");
+        element = driver.findElement(By.name("passwordConfirmation"));
+        element.sendKeys("p3kka");
+        element = driver.findElement(By.name("add"));
+        element.submit();
     }
     then 'new user is not be registered to system', {
-       io.getPrints().shouldHave("new user not registered")
+        driver.getPageSource().contains("length greater or equal to 8").shouldBe true
     }
 }
 
 scenario "creation fails with correct username and password consisting of letters", {
     given 'command new user is selected', {
-       userDao = new InMemoryUserDao()
-       auth = new AuthenticationService(userDao)
-       io = new StubIO("new", "eero", "salalalalal") 
-       app = new App(io, auth)
+        driver = new HtmlUnitDriver();
+        driver.get("http://localhost:8080");
+        element = driver.findElement(By.linkText("register new user"));       
+        element.click();
     }
 
     when 'a valid username and password consisting of letters are entered', {
-      app.run()
+        element = driver.findElement(By.name("username"));
+        element.sendKeys("pekkaporka");
+        element = driver.findElement(By.name("password"));
+        element.sendKeys("pekkapaa");
+        element = driver.findElement(By.name("passwordConfirmation"));
+        element.sendKeys("pekkapaa");
+        element = driver.findElement(By.name("add"));
+        element.submit();
     }
+
     then 'new user is not be registered to system', {
-       io.getPrints().shouldHave("new user not registered")
+        driver.getPageSource().contains("must contain one character that is not a letter").shouldBe true
     }
 }
 
 scenario "creation fails with too short username and valid password", {
     given 'command new user is selected', {
-       userDao = new InMemoryUserDao()
-       auth = new AuthenticationService(userDao)
-       io = new StubIO("new", "ee", "sala1nen") 
-       app = new App(io, auth)
+        driver = new HtmlUnitDriver();
+        driver.get("http://localhost:8080");
+        element = driver.findElement(By.linkText("register new user"));       
+        element.click();
     }
-    when 'a too sort username and valid password are entered', {
-      app.run()
+    when 'a too short username and valid password are entered', {
+        element = driver.findElement(By.name("username"));
+        element.sendKeys("pek");
+        element = driver.findElement(By.name("password"));
+        element.sendKeys("pekkap4a");
+        element = driver.findElement(By.name("passwordConfirmation"));
+        element.sendKeys("pekkap4a");
+        element = driver.findElement(By.name("add"));
+        element.submit();
     }
     then 'new user is not be registered to system', {
-       io.getPrints().shouldHave("new user not registered")
+        driver.getPageSource().contains("length 5-10").shouldBe true
     }
 }
 
 scenario "creation fails with already taken username and valid password", {
     given 'command new user is selected', {
-       userDao = new InMemoryUserDao()
-       auth = new AuthenticationService(userDao)
-       io = new StubIO("new", "pekka", "sala1nen") 
-       app = new App(io, auth)
+        driver = new HtmlUnitDriver();
+        driver.get("http://localhost:8080");
+        element = driver.findElement(By.linkText("register new user"));       
+        element.click();
     }
     when 'a already taken username and valid password are entered', {
-      app.run()
+        element = driver.findElement(By.name("username"));
+        element.sendKeys("pekka");
+        element = driver.findElement(By.name("password"));
+        element.sendKeys("pekkap4a");
+        element = driver.findElement(By.name("passwordConfirmation"));
+        element.sendKeys("pekkap4a");
+        element = driver.findElement(By.name("add"));
+        element.submit();
     }
     then 'new user is not be registered to system', {
-       io.getPrints().shouldHave("new user not registered")
+        driver.getPageSource().contains("username or password invalid").shouldBe true
     }
 }
 
 scenario "can not login with account that is not successfully created", {
     given 'command new user is selected', {
-       userDao = new InMemoryUserDao()
-       auth = new AuthenticationService(userDao)
-       io = new StubIO("new", "ee", "sala1nen", "login", "ee", "sala1nen")
-       app = new App(io, auth)
+        driver = new HtmlUnitDriver();
+        driver.get("http://localhost:8080");
+        element = driver.findElement(By.linkText("register new user"));       
+        element.click();
     }
+
     when 'a invalid username/password are entered', {
-      app.run()
+        element = driver.findElement(By.name("username"));
+        element.sendKeys("pekkapom");
+        element = driver.findElement(By.name("password"));
+        element.sendKeys("pekkeppa");
+        element = driver.findElement(By.name("passwordConfirmation"));
+        element.sendKeys("pekkeppa");
+        element = driver.findElement(By.name("add"));
+        element.submit();
+        element = driver.findElement(By.linkText("back to home"));
+        element.click();
     }
     then  'new credentials do not allow logging in to system', {
-       io.getPrints().shouldNotHave("logged in")
+        element = driver.findElement(By.linkText("login"));
+        element.click();
+        element = driver.findElement(By.name("username"));
+        element.sendKeys("pekkapom");
+        element = driver.findElement(By.name("password"));
+        element.sendKeys("pekkeppa");
+        element = driver.findElement(By.name("login"));
+        element.submit();
+        driver.getPageSource().contains("wrong username or password").shouldBe true
     }
 }
