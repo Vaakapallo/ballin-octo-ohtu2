@@ -15,26 +15,25 @@ import olutopas.model.User;
 
 public class Application {
 
-    private EbeanServer server;
+    private Datamapper mapper;
     private Scanner scanner = new Scanner(System.in);
     private User user;
+    private CommandInterpreter commands;
 
-    public Application(EbeanServer server) {
-        this.server = server;
+    public Application(Datamapper mapper) {
+        this.mapper = mapper;
+        mapper.setCurrentUser(user);
+        commands = new CommandInterpreter(scanner, mapper);
     }
 
-    public void run(boolean newDatabase) {
-        if (newDatabase) {
-            seedDatabase();
-        }
-
+    public void run() {
         while (true) {
             System.out.println("Login (give ? to register a new user)");
             String username = scanner.nextLine();
             if (username.equals("?")) {
-                new NewUser(scanner,server,user).run();
+                new NewUser(scanner, mapper).run();
             } else {
-                User foundUser = server.find(User.class).where().like("name", username).findUnique();
+                User foundUser = mapper.getServer().find(User.class).where().like("name", username).findUnique();
                 if (foundUser != null) {
                     user = foundUser;
                     break;
@@ -42,10 +41,7 @@ public class Application {
             }
         }
 
-
         System.out.println("Welcome!");
-
-        CommandInterpreter commands = new CommandInterpreter(scanner, server, user);
 
         while (true) {
             menu();
@@ -75,34 +71,5 @@ public class Application {
         System.out.println("q   quit");
         System.out.println("");
     }
-
     // jos kanta on luotu uudelleen, suoritetaan tämä ja laitetaan kantaan hiukan dataa
-    private void seedDatabase() throws OptimisticLockException {
-        Brewery brewery = new Brewery("Schlenkerla");
-        brewery.addBeer(new Beer("Urbock"));
-        brewery.addBeer(new Beer("Lager"));
-        // tallettaa myös luodut oluet, sillä Brewery:n OneToMany-mappingiin on määritelty
-        // CascadeType.all
-        server.save(brewery);
-
-        // luodaan olut ilman panimon asettamista
-        Beer b = new Beer("Märzen");
-        server.save(b);
-
-        // jotta saamme panimon asetettua, tulee olot lukea uudelleen kannasta
-        b = server.find(Beer.class, b.getId());
-        brewery = server.find(Brewery.class, brewery.getId());
-        brewery.addBeer(b);
-        server.save(brewery);
-
-        server.save(new Brewery("Paulaner"));
-
-        User u = new User("vaakapallo");
-        server.save(u);
-
-        server.save(new Rating(b, u, 5));
-
-        server.save(new Pub("Pikkulintu"));
-    }
-    
 }

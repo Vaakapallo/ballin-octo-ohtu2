@@ -7,6 +7,7 @@ package olutopas.Commands;
 import com.avaje.ebean.EbeanServer;
 import java.util.List;
 import java.util.Scanner;
+import olutopas.Datamapper;
 import olutopas.model.User;
 
 /**
@@ -15,13 +16,13 @@ import olutopas.model.User;
  */
 class ListUsers extends Command {
 
-    public ListUsers(Scanner lukija, EbeanServer server, User user) {
-        super(lukija, server, user);
+    public ListUsers(Scanner scanner, Datamapper mapper) {
+        super(scanner, mapper);
     }
 
     @Override
     public void run() {
-        List<User> list = server.find(User.class).findList();
+        List<User> list = mapper.getServer().find(User.class).findList();
         System.out.println("users:");
         for (User beer : list) {
             System.out.println(beer);

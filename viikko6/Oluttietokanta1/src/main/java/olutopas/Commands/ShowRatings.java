@@ -7,6 +7,7 @@ package olutopas.Commands;
 import com.avaje.ebean.EbeanServer;
 import java.util.List;
 import java.util.Scanner;
+import olutopas.Datamapper;
 import olutopas.model.Rating;
 import olutopas.model.User;
 
@@ -16,13 +17,13 @@ import olutopas.model.User;
  */
 class ShowRatings extends Command {
 
-    public ShowRatings(Scanner lukija, EbeanServer server, User user) {
-        super(lukija, server, user);
+    public ShowRatings(Scanner scanner, Datamapper mapper) {
+        super(scanner, mapper);
     }
 
     @Override
     public void run() {
-        List<Rating> list = server.find(Rating.class).where().eq("user", user).findList();
+        List<Rating> list = mapper.getServer().find(Rating.class).where().eq("user", mapper.getCurrentUser()).findList();
         for (Rating rating : list) {
             System.out.println(rating);
         }

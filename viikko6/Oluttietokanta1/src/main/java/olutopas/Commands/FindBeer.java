@@ -8,6 +8,7 @@ import olutopas.Commands.PrintBeer;
 import olutopas.Commands.Command;
 import com.avaje.ebean.EbeanServer;
 import java.util.Scanner;
+import olutopas.Datamapper;
 import olutopas.model.Beer;
 import olutopas.model.Rating;
 import olutopas.model.User;
@@ -18,30 +19,32 @@ import olutopas.model.User;
  */
 public class FindBeer extends Command {
 
-    public FindBeer(Scanner scanner, EbeanServer server, User user) {
-        super(scanner, server, user);
+    public FindBeer(Scanner scanner, Datamapper mapper) {
+        super(scanner, mapper);
     }
+
+    
 
     @Override
     public void run() {
         System.out.print("beer to find: ");
         String n = scanner.nextLine();
-        Beer foundBeer = server.find(Beer.class).where().like("name", n).findUnique();
+        Beer foundBeer = mapper.getServer().find(Beer.class).where().like("name", n).findUnique();
 
         if (foundBeer == null) {
             System.out.println(n + " not found");
             return;
         }
 
-        new PrintBeer(foundBeer, server).run();
+        new PrintBeer(foundBeer, mapper).run();
 
         System.out.println("give rating (leave blank to skip)");
         String input = scanner.nextLine();
         if (!input.equals("")) {
             int value = Integer.parseInt(input);
             if (value != 0) {
-                Rating rating = new Rating(foundBeer, user, value);
-                server.save(rating);
+                Rating rating = new Rating(foundBeer, mapper.getCurrentUser(), value);
+                mapper.getServer().save(rating);
             }
         }
     }

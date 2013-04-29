@@ -6,6 +6,7 @@ package olutopas.Commands;
 
 import com.avaje.ebean.EbeanServer;
 import java.util.Scanner;
+import olutopas.Datamapper;
 import olutopas.model.User;
 
 /**
@@ -13,11 +14,11 @@ import olutopas.model.User;
  * @author lassi
  */
 class Quit extends Command {
-    
-    public Quit(Scanner lukija, EbeanServer server, User user) {
-        super(lukija, server, user);
+
+    public Quit(Scanner scanner, Datamapper mapper) {
+        super(scanner, mapper);
     }
-    
+
     @Override
     public void run() {
         System.out.println("bye");

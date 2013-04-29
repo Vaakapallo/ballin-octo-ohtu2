@@ -4,8 +4,8 @@
  */
 package olutopas.Commands;
 
-import com.avaje.ebean.EbeanServer;
 import java.util.Scanner;
+import olutopas.Datamapper;
 import olutopas.model.User;
 
 /**
@@ -15,13 +15,11 @@ import olutopas.model.User;
 public abstract class Command {
 
     protected Scanner scanner;
-    protected EbeanServer server;
-    protected User user;
+    protected Datamapper mapper;
 
-    public Command(Scanner lukija, EbeanServer server, User user) {
-        this.scanner = lukija;
-        this.server = server;
-        this.user = user;
+    public Command(Scanner scanner, Datamapper mapper) {
+        this.scanner = scanner;
+        this.mapper = mapper;
     }
 
     public abstract void run();
