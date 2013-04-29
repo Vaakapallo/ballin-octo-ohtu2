@@ -33,13 +33,8 @@ public class EbeanSqliteDatamapper implements Datamapper {
         this.luokat = luokat;
         this.dropAndCreate = dropAndCreate;
         this.tietokantaUrl = tietokantaUrl;
-        server = initializeDatabase(dropAndCreate, Database.SQLite);
+        server = initializeDatabase(dropAndCreate);
         init();
-    }
-
-    enum Database {
-
-        H2, SQLite
     }
 
     public void init() {
@@ -48,41 +43,26 @@ public class EbeanSqliteDatamapper implements Datamapper {
         }
     }
 
-    private static EbeanServer initializeDatabase(boolean dropAndCreateDatabase, Database db) {
+    private EbeanServer initializeDatabase(boolean dropAndCreateDatabase) {
         ServerConfig config = new ServerConfig();
         config.setName("beerDb");
 
-        if (db == Database.H2) {
-            DataSourceConfig hdDB = new DataSourceConfig();
-            hdDB.setDriver("org.h2.Driver");
-            hdDB.setUsername("test");
-            hdDB.setPassword("test");
-            hdDB.setUrl("jdbc:h2:mem:tests;DB_CLOSE_DELAY=-1");
-            hdDB.setHeartbeatSql("select 1 ");
-            config.setDataSourceConfig(hdDB);
-        }
-
-        if (db == Database.SQLite) {
-            DataSourceConfig sqLite = new DataSourceConfig();
-            sqLite.setDriver("org.sqlite.JDBC");
-            sqLite.setUsername("mluukkai");
-            sqLite.setPassword("mluukkai");
-            //sqLite.setUrl("jdbc:sqlite:/home/mluukkai/sqlite/kannat/beer.db");
-            sqLite.setUrl("jdbc:sqlite:beer.db");
-            config.setDataSourceConfig(sqLite);
-            config.setDatabasePlatform(new SQLitePlatform());
-            config.getDataSourceConfig().setIsolationLevel(Transaction.READ_UNCOMMITTED);
-        }
+        DataSourceConfig sqLite = new DataSourceConfig();
+        sqLite.setDriver("org.sqlite.JDBC");
+        sqLite.setUsername("mluukkai");
+        sqLite.setPassword("mluukkai");
+        //sqLite.setUrl("jdbc:sqlite:/home/mluukkai/sqlite/kannat/beer.db");
+        sqLite.setUrl("jdbc:sqlite:beer.db");
+        config.setDataSourceConfig(sqLite);
+        config.setDatabasePlatform(new SQLitePlatform());
+        config.getDataSourceConfig().setIsolationLevel(Transaction.READ_UNCOMMITTED);
 
         config.setDefaultServer(false);
         config.setRegister(false);
 
-        config.addClass(Beer.class);
-        config.addClass(Brewery.class);
-        config.addClass(User.class);
-        config.addClass(Rating.class);
-        config.addClass(Pub.class);
-
+        for (Class luokka : luokat) {
+            config.addClass(luokka);
+        }
 
         if (dropAndCreateDatabase) {
             config.setDdlGenerate(true);
@@ -117,8 +97,6 @@ public class EbeanSqliteDatamapper implements Datamapper {
         server.save(u);
 
         server.save(new Rating(b, u, 5));
-
-        server.save(new Pub("Pikkulintu"));
     }
 
     @Override
