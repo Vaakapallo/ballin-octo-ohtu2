@@ -4,12 +4,10 @@
  */
 package olutopas.Commands;
 
-import com.avaje.ebean.EbeanServer;
 import java.util.Scanner;
 import olutopas.Datamapper;
 import olutopas.model.Beer;
 import olutopas.model.Brewery;
-import olutopas.model.User;
 
 /**
  *
@@ -26,11 +24,11 @@ class FindBrewery extends Command {
     @Override
     public void run() {
         System.out.print("brewery to find: ");
-        String n = scanner.nextLine();
-        Brewery foundBrewery = mapper.getServer().find(Brewery.class).where().like("name", n).findUnique();
+        String name = scanner.nextLine();
+        Brewery foundBrewery = mapper.brewerywithName(name);
 
         if (foundBrewery == null) {
-            System.out.println(n + " not found");
+            System.out.println(name + " not found");
             return;
         }
 

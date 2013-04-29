@@ -4,11 +4,9 @@
  */
 package olutopas.Commands;
 
-import com.avaje.ebean.EbeanServer;
 import java.util.Scanner;
 import olutopas.Datamapper;
 import olutopas.model.Brewery;
-import olutopas.model.User;
 
 /**
  *
@@ -24,7 +22,7 @@ class AddBrewery extends Command {
     public void run() {
         System.out.print("brewery to add: ");
         String name = scanner.nextLine();
-        Brewery exists = mapper.getServer().find(Brewery.class).where().like("name", name).findUnique();
+        Brewery exists = mapper.brewerywithName(name);
 
         if (exists != null) {
             System.out.println(name + " exists already");

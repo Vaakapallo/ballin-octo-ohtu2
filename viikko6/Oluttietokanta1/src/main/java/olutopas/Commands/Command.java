@@ -6,7 +6,6 @@ package olutopas.Commands;
 
 import java.util.Scanner;
 import olutopas.Datamapper;
-import olutopas.model.User;
 
 /**
  *

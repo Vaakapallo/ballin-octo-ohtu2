@@ -13,7 +13,6 @@ import com.avaje.ebean.config.dbplatform.SQLitePlatform;
 import javax.persistence.OptimisticLockException;
 import olutopas.model.Beer;
 import olutopas.model.Brewery;
-import olutopas.model.Pub;
 import olutopas.model.Rating;
 import olutopas.model.User;
 

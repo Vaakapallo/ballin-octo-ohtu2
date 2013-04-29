@@ -4,7 +4,6 @@
  */
 package olutopas.Commands;
 
-import com.avaje.ebean.EbeanServer;
 import java.util.List;
 import java.util.Scanner;
 import olutopas.Datamapper;

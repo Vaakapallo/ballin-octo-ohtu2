@@ -4,14 +4,10 @@
  */
 package olutopas.Commands;
 
-import olutopas.Commands.PrintBeer;
-import olutopas.Commands.Command;
-import com.avaje.ebean.EbeanServer;
 import java.util.Scanner;
 import olutopas.Datamapper;
 import olutopas.model.Beer;
 import olutopas.model.Rating;
-import olutopas.model.User;
 
 /**
  *
