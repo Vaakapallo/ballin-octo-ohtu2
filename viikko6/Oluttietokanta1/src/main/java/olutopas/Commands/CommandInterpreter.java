@@ -6,7 +6,7 @@ package olutopas.Commands;
 
 import java.util.HashMap;
 import java.util.Scanner;
-import olutopas.Datamapper;
+import olutopas.Database.Datamapper;
 
 /**
  *

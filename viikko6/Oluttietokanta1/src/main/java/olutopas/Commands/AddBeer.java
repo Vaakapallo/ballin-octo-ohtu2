@@ -5,7 +5,7 @@
 package olutopas.Commands;
 
 import java.util.Scanner;
-import olutopas.Datamapper;
+import olutopas.Database.Datamapper;
 import olutopas.model.Beer;
 import olutopas.model.Brewery;
 
@@ -23,7 +23,7 @@ class AddBeer extends Command {
     public void run() {
         System.out.print("to which brewery: ");
         String name = scanner.nextLine();
-        Brewery brewery = mapper.getServer().find(Brewery.class).where().like("name", name).findUnique();
+        Brewery brewery = mapper.brewerywithName(name);
 
         if (brewery == null) {
             System.out.println(name + " does not exist");
@@ -34,7 +34,7 @@ class AddBeer extends Command {
 
         name = scanner.nextLine();
 
-        Beer exists = mapper.getServer().find(Beer.class).where().like("name", name).findUnique();
+        Beer exists = mapper.beerwithName(name);
         if (exists != null) {
             System.out.println(name + " exists already");
             return;

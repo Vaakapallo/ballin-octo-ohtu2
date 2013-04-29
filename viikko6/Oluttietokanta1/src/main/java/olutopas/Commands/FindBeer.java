@@ -5,7 +5,7 @@
 package olutopas.Commands;
 
 import java.util.Scanner;
-import olutopas.Datamapper;
+import olutopas.Database.Datamapper;
 import olutopas.model.Beer;
 import olutopas.model.Rating;
 
@@ -25,7 +25,7 @@ public class FindBeer extends Command {
     public void run() {
         System.out.print("beer to find: ");
         String n = scanner.nextLine();
-        Beer foundBeer = mapper.getServer().find(Beer.class).where().like("name", n).findUnique();
+        Beer foundBeer = mapper.beerwithName(n);
 
         if (foundBeer == null) {
             System.out.println(n + " not found");

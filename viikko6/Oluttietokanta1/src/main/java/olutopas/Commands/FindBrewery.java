@@ -5,7 +5,7 @@
 package olutopas.Commands;
 
 import java.util.Scanner;
-import olutopas.Datamapper;
+import olutopas.Database.Datamapper;
 import olutopas.model.Beer;
 import olutopas.model.Brewery;
 

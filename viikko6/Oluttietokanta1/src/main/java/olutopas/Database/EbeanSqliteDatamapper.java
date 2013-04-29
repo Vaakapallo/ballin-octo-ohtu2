@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package olutopas;
+package olutopas.Database;
 
 import com.avaje.ebean.EbeanServer;
 import com.avaje.ebean.EbeanServerFactory;
@@ -103,8 +103,6 @@ public class EbeanSqliteDatamapper implements Datamapper {
         return server.find(Brewery.class).where().like("name", n).findUnique();
     }
 
-    // muut metodit
-    // apumetodi, jonka avulla Application-olio pääsee aluksi käsiksi EbeanServer-olioon
     @Override
     public EbeanServer getServer() {
         return server;
@@ -118,5 +116,15 @@ public class EbeanSqliteDatamapper implements Datamapper {
     @Override
     public void setCurrentUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public Beer beerwithName(String n) {
+        return server.find(Beer.class).where().like("name", n).findUnique();
+    }
+
+    @Override
+    public User userwithName(String n) {
+        return server.find(User.class).where().like("name", n).findUnique();
     }
 }

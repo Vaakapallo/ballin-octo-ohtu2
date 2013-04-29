@@ -1,16 +1,10 @@
 package olutopas;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.EbeanServer;
-import com.avaje.ebean.EbeanServerFactory;
-import com.avaje.ebean.config.DataSourceConfig;
-import com.avaje.ebean.config.ServerConfig;
-import com.avaje.ebean.config.dbplatform.SQLitePlatform;
+import olutopas.Database.Datamapper;
+import olutopas.Database.EbeanSqliteDatamapper;
 import olutopas.model.Beer;
 import olutopas.model.Brewery;
 
-import com.avaje.ebean.Transaction;
-import olutopas.model.Pub;
 import olutopas.model.Rating;
 import olutopas.model.User;
 

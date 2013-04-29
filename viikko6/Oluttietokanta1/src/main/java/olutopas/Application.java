@@ -1,16 +1,10 @@
 package olutopas;
 
+import olutopas.Database.Datamapper;
 import olutopas.Commands.CommandInterpreter;
-import com.avaje.ebean.EbeanServer;
-import java.util.List;
 import java.util.Scanner;
-import javax.persistence.OptimisticLockException;
 import olutopas.Commands.Command;
 import olutopas.Commands.NewUser;
-import olutopas.model.Beer;
-import olutopas.model.Brewery;
-import olutopas.model.Pub;
-import olutopas.model.Rating;
 import olutopas.model.User;
 
 public class Application {
@@ -33,7 +27,7 @@ public class Application {
             if (username.equals("?")) {
                 new NewUser(scanner, mapper).run();
             } else {
-                User foundUser = mapper.getServer().find(User.class).where().like("name", username).findUnique();
+                User foundUser = mapper.userwithName(username);
                 if (foundUser != null) {
                     user = foundUser;
                     break;
